@@ -1,7 +1,7 @@
 # Hex Viewer
 
 ## Description
-The program takes input of a file, then proceeds to read each byte and return as a hex.
+The program takes input of a file, then proceeds to read each byte and return as a hex and ASCII.
 
 
 ## Usage and compilation
@@ -10,8 +10,9 @@ gcc hex_viewer.c -o hex
 ./hex <file>
 ```
 ## Future improvement
-- read from multiple lines
-- produce binary and ASCII also
+- Better error handling
+- configurable bytes per row
+- display file metadata
 
 
 ---

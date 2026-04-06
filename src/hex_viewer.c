@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <ctype.h>
 
 int main(int argc, char *argv[]){
 	
@@ -12,23 +13,40 @@ int main(int argc, char *argv[]){
 	FILE *file = fopen(argv[1], "rb");
 	
 	if (file == NULL) {
-		printf("Could not open file.\n");
+		perror("Error opening file");
 		return 1;
 	}
 	
 	// buffer 16 characters
 	unsigned char buffer[16];
 	size_t bytes_read;
+	unsigned int offset =0;
 	
 	while ((bytes_read = fread(buffer,1,16,file)) > 0){
-		printf("read %zu bytes\n", bytes_read);
-
+		printf("%08x  ", offset);		
 		for (size_t i = 0; i < bytes_read;i++){
 			printf("%02x ", buffer[i]);
 		}
+		
+		// pad missing bytes
+		for (size_t i = bytes_read; i < 16; i++) {
+			printf("   ");
+		}
+		
+		printf(" |");
+
+        for (size_t i = 0; i < bytes_read; i++) {
+            if (isprint(buffer[i])) {
+                printf("%c", buffer[i]);
+            } else {
+				printf(".");
+			}
+		}
+		printf("|\n");
+		offset += bytes_read;
 	}
 	
-	printf("\n");
+
 	
 	fclose(file);
 	return 0;
